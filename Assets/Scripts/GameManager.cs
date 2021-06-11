@@ -51,12 +51,11 @@ public class GameManager : MonoBehaviour
         playerScores = new int[2];
         
         var world = World.DefaultGameObjectInjectionWorld;
-        // var conversionSystem = world.GetExistingSystem<GameObjectConversionSystem>();
-        _blobStore = new BlobAssetStore();
-        var settings = GameObjectConversionSettings.FromWorld(world, new BlobAssetStore());
-        
-        _ballEntityPrefab = GameObjectConversionUtility.ConvertGameObjectHierarchy(ballPrefab, settings);
         _entityManager = world.EntityManager;
+
+        _blobStore ??= new BlobAssetStore();
+        var settings = GameObjectConversionSettings.FromWorld(world, _blobStore);
+        _ballEntityPrefab = GameObjectConversionUtility.ConvertGameObjectHierarchy(ballPrefab, settings);
         
         _oneSecond = new WaitForSeconds(1f);
         _delay = new WaitForSeconds(respawnDelay);
